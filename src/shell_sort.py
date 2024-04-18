@@ -40,21 +40,3 @@ def shell_sort(songList):
         gap = int(gap / 2.2)
 
     return songList
-
-        
-def unitTest():
-    sampleList = [
-        ["song5", 5],
-        ["song3", 3],
-        ["song6", 6],
-        ["song1", 1],
-        ["song3", 3],
-        ["song8", 8],
-    ]
-
-    sortedList = shell_sort(sampleList)
-    
-    for i in range(len(sortedList)):
-        print(sortedList[i][0])
-
-unitTest()
