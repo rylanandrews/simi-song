@@ -1,5 +1,38 @@
 # Quick sort function implementation
+# The general logic and organization for this code comes from "6 - Sorting" lecture
+
+
+def partition(arr, lo, hi):
+    pivot = arr[hi]
+    up = lo
+    down = hi
+    while (up < down):
+        for j in (up, hi):
+            if arr[up] > pivot:
+                break
+            up += 1
+        
+        for j in (hi, lo, -1):
+            if arr[down] < pivot:
+                break
+            down -= 1
+        
+        if up < down:
+            #swap arr[up] and arr[down]
+            temp = arr[up]
+            arr[up] = arr[down]
+            arr[down] = temp
+            
+    #swap arr[lo] and arr[down]
+    temp = arr[lo]
+    arr[lo] = arr[down]
+    arr[down] = temp
+    return down
+
 
 def quick_sort(array2d, low, high):
     # Stuff
-    # return (something)
+    if low < high:
+        pivot = partition(array2d, low, high)
+        quick_sort(array2d, low, pivot-1)
+        quick_sort(array2d, pivot+1, high)
