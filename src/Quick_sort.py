@@ -3,17 +3,17 @@
 
 
 def partition(arr, lo, hi):
-    pivot = arr[hi][2]
+    pivot = arr[hi][1]
     up = lo
     down = hi
     while (up < down):
         for j in (up, hi):
-            if arr[up][2] > pivot:
+            if arr[up][1] > pivot:
                 break
             up += 1
         
         for j in (hi, lo, -1):
-            if arr[down][2] < pivot:
+            if arr[down][1] < pivot:
                 break
             down -= 1
         
@@ -47,7 +47,7 @@ def unit_test():
         ["song8", 8],
     ]
 
-    sortedList = quick_sort(sampleList, 1, len(sampleList))
+    sortedList = quick_sort(sampleList, 0, len(sampleList)-1)
 
     print(sortedList)
 
