@@ -1,4 +1,7 @@
 # Author(s): Rylan Andrews
+
+# Testing instructions:
+#   run python -m unittest -v unit_tests.py
   
 import src.shell_sort as shell_sort
 
