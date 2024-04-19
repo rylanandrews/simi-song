@@ -2,11 +2,19 @@
 
 import PySimpleGUI as sg
 
+import time
+
 unsortedSongs = "multiple\nsongs\nhere"
 
+sortStatusBar = sg.StatusBar(text="Waiting", enable_events=True)
+timeStatusBar = sg.StatusBar(text="0 ms", enable_events=True)
+
 layout = [  
-    [sg.Text(text="Input a song: "), sg.Input(default_text="", key="-INPUT-")],
-    [sg.Multiline(default_text=unsortedSongs, size=(30,30)), sg.Button("Hi!", k="-BUTTON1-"), sg.Output(size=(30,30))]
+    [sg.Text(text="Input a song: "), sg.Input(default_text="", key="-INPUT-"), sg.Button("Shell Sort", k="-ShellSort-"), sg.Button("Quick Sort", k="-QuickSort-")],
+    [sg.Text(text="Unsorted Songs", size=(45, 1)), sg.Text(text="Sorted Songs")],
+    [sg.Multiline(default_text=unsortedSongs, size=(50,30)), sg.Output(size=(50,30))],
+    [sg.Text(text="Status:"), sortStatusBar],
+    [sg.Text(text="Time for last operation:"), timeStatusBar],
             ]
 
 # Create the Window
@@ -20,7 +28,27 @@ while True:
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
 
-    if event == "-BUTTON1-":
-        print("something")
+    if event == "-ShellSort-":
+        sortStatusBar.update(value="Computing")
+
+        # TODO: assign similarity index
+        # TODO: call shell sort on data
+        time.sleep(1)
+
+        sortStatusBar.update(value="Done")
+
+        # TODO: display data
+
+    if event == "-QuickSort-":
+        sortStatusBar.update(value="Computing")
+
+        # TODO: assign similarity index
+        # TODO: call quick sort on data
+        time.sleep(1)
+
+        sortStatusBar.update(value="Done")
+
+        # TODO: display data
+        
 
 window.close()
