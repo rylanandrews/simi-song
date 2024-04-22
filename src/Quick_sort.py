@@ -7,16 +7,16 @@ import sys
 
 
 def partition(arr, lo, hi):
-    pivot = arr[hi][1]
+    pivot = arr[lo][1]
     up = lo
     down = hi
     while (up < down):
-        for j in range(up, hi-1):
+        for j in range(up, hi):
             if arr[up][1] > pivot:
                 break
             up += 1
         
-        for j in range(hi, lo+1, -1):
+        for j in range(down, lo, -1):
             if arr[down][1] < pivot:
                 break
             down -= 1
@@ -51,7 +51,8 @@ def unit_test():
         ["song8", 8],
     ]
 
-    sortedList = quick_sort(sampleList, 0, len(sampleList)-1)
+    quick_sort(sampleList, 0, len(sampleList)-1)
 
-    print(sortedList)
+    print(sampleList)
 
+unit_test()
