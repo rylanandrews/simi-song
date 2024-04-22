@@ -6,6 +6,7 @@ import time
 import timeit
 
 from load_similarities import *
+import autocomplete
 import Quick_sort
 import shell_sort
 
@@ -55,9 +56,11 @@ window = sg.Window('Simi-song', layout)
 
 ## Program Running
 
-## Data Import
-
-# TODO: Import dataset
+# Import the dataset and make a trie with it
+current_dir = os.path.dirname(os.path.abspath(__file__))
+path = os.path.join(current_dir, '..', 'data')
+readInData(path = path, numFilesToProcess = 5)
+trie = makeTrie(informativeNameToURIs.keys())
 
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
@@ -73,17 +76,21 @@ while True:
         # Clear suggestions box
         suggestedSongs.update(value="")     
 
-        # Add suggestions from an array by iterating through array and printing to box
-        suggestedSongs.print(currentInput)
-
-        # TODO: populate suggestions box
-        
-
+        # Populate suggestions box
+        if len(currentInput) < 6:
+            suggestedSongs.update(value = "Please type more characters")
+        elif (autocomplete(trie, currentInput) != "No matches found"):
+            possibleSongList = autocomplete(trie, currentInput)
+            printStatement = ""
+            for song in possibleSongList:
+                printStatement = printStatement + song + "\n"
+            suggestedSongs.update(value = printStatement)
+        else:
+            suggestedSongs.update(value = "No matches found")
 
     if event == "-ShellSort-":
         currentInput = values["-INPUT-"]
         # TODO: Implement song not found error
-        
 
         # TODO: assign similarity index
 

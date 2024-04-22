@@ -103,9 +103,9 @@ def getTrackURI(trackInfo, infoToTracks):
     return infoToTracks[trackInfo]
 
 # Actual code
-current_dir = os.path.dirname(os.path.abspath(__file__))
-path = os.path.join(current_dir, '..', 'data')
-readInData(path = path)
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# path = os.path.join(current_dir, '..', 'data')
+# readInData(path = path)
 
 ### EXAMPLE
 # testTrack = "spotify:track:3cVWNLd0uEHkc2tnBoE3Ay"
