@@ -152,7 +152,8 @@ while True:
             startTime = timeit.timeit()
 
             # Call shell sort on data
-            similaritiesSorted = Quick_sort.quick_sort(list(similarities.items()))
+            similaritiesSorted = list(similarities.items())
+            Quick_sort.quick_sort(similaritiesSorted, 0, len(similaritiesSorted)-1)
 
             # Track end time and update elapsed time
             endTime = timeit.timeit()
