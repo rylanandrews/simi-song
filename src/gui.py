@@ -1,3 +1,6 @@
+# Authors: Rylan Andrews and Connor Ambrose
+
+# Credit: PySimpleGUI documentation
 # https://docs.pysimplegui.com/en/latest/documentation/what_is_it/fun_as_a_goal/
 
 import PySimpleGUI as sg
@@ -40,7 +43,7 @@ sortStatusBar = sg.StatusBar(text="Waiting", enable_events=True)
 timeTextBox = sg.Text(text="Time for last sort (s):")
 timeStatusBar = sg.StatusBar(text="0 s", enable_events=True)
 
-
+# Layout is organized as a series of rows
 layout = [  
     [songInputText, songInput, shellSortButton, quickSortButton],
     [suggestionsTextBox],
@@ -62,18 +65,16 @@ path = os.path.join(current_dir, '..', 'data')
 readInData(path = path, numFilesToProcess = 30) # adjust numFilesToProcess to change start-up time
 trie = makeTrie(trackPlaylists.keys())
 
-#for song in tracksInfo.keys():
-#    unsortedSongs.print(song)
-
-# Event Loop to process "events" and get the "values" of the inputs
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
+    # Detect events and values
     event, values = window.read()
 
     # if user closes window or clicks cancel
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
 
+    # For every input in the text box, update the suggestions box
     if event == "-INPUT-":
         currentInput = values["-INPUT-"]
 
@@ -84,14 +85,16 @@ while True:
         if len(currentInput) < 6:
             suggestedSongs.update(value = "Please type more characters")
         elif (autocomplete(trie, currentInput) != "No matches found"):
+            # Get possible matching songs
             possibleSongList = autocomplete(trie, currentInput)
             printStatement = ""
+            # Print to suggestions box
             for song in possibleSongList:
                 suggestedSongs.print(song)
         else:
             suggestedSongs.update(value = "No matches found")
         
-
+    # Shell sort selected
     if event == "-ShellSort-":
         currentInput = values["-INPUT-"]
         
@@ -130,6 +133,7 @@ while True:
             for element in similaritiesSorted:
                 sortedSongs.print(element[0] + ": " + str(element[1]))
 
+    # Quick sort selected
     if event == "-QuickSort-":
         currentInput = values["-INPUT-"]
         
