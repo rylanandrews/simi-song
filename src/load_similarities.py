@@ -12,6 +12,8 @@ def readInData(path, numFilesToProcess = 100):
     input:
         path: a string that leads to the folder with data files
         numFilesToProcess: an integer count of how many files should be read in
+    References:
+        This code was written after examining (and then deleting) a very similar function that came with the dataset
     """
     numFilesProcessed = 0
     files = os.listdir(path)
