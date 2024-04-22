@@ -24,7 +24,7 @@ This is the template for Project 3 repositories. It includes all the assignment 
 			- [Issues](#issues-1)
 			- [Bonus Documentation](#bonus-documentation)
 
-# Documentation and resources on how to use GitHub for Project 3
+# How to run Simi-song
 ## Getting Started with the Project
 
 This is a group project. As such, you're expected to equally contribute to all parts of the project. To ensure everyone is contributing, we have moved this project entirely to GitHub and will use GitHub logs to understand your contributions. To fully leverage the features that GitHub offers, you have to be familiar with what they are and how to use them.
