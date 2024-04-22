@@ -103,6 +103,7 @@ while True:
 
         if not waitForNewInput:
             # Populate the unsorted songs
+            unsortedSongs.update(value="")
             for name, similarity in similarities.items():
                 unsortedSongs.print(name + ": " + str(similarity))
             
@@ -140,6 +141,7 @@ while True:
 
         if not waitForNewInput:
             # Populate the unsorted songs
+            unsortedSongs.update(value="")
             for name, similarity in similarities.items():
                 unsortedSongs.print(name + ": " + str(similarity))
             
