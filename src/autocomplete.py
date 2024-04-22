@@ -1,11 +1,12 @@
 # I made this function after reviewing the code on https://stackoverflow.com/questions/11015320/how-to-create-a-trie-in-python
 def makeTrie(informativeTracks):
-    node = dict()
+    root = dict()
     for track in informativeTracks:
-        currentNode = node
+        currentNode = root
         for letter in track:
             currentNode = currentNode.setdefault(letter, {})
         currentNode['_end_'] = '_end_'
+    return root
 
 def autocomplete(trie, inputString):
     currentNode = trie
@@ -20,10 +21,10 @@ def autocomplete(trie, inputString):
     words = []
     
     # Continue to navigate down, but collect words
-    while not stack.empty():
+    while stack:
         currentNode, prefix = stack.pop()
         for letter, childNode in currentNode.items():
-            if letter == end:
+            if letter == '_end_':
                 words.append(prefix)
             else:
                 stack.append((childNode, prefix + letter))
