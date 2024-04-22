@@ -6,7 +6,6 @@ numPlaylistsProcessed = 0
 trackPlaylists = defaultdict(list) # Solution from https://stackoverflow.com/questions/11509721/how-do-i-initialize-a-dictionary-of-empty-lists-in-python
 tracksInfo = dict()
 playlistsContent = dict()
-informativeNameToURIs = dict()
 
 def readInData(path, numFilesToProcess = 100):
     """Goes through each file in the provided path and fetchs their contents to be put in the dictionaries
@@ -76,7 +75,8 @@ def computeSimilarityScores(informativeName, trackPlaylists, playlistsContent):
         
         for track in playlistsContent[playlist]:
             trackSimilarity[track] += similarityScore
-            
+    
+    print(trackSimilarity)
     del trackSimilarity[informativeName]
     return trackSimilarity
 
