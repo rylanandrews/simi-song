@@ -12,12 +12,12 @@ def partition(arr, lo, hi):
     down = hi
     while (up < down):
         for j in range(up, hi):
-            if arr[up][1] > pivot:
+            if arr[up][1] < pivot:
                 break
             up += 1
         
         for j in range(down, lo, -1):
-            if arr[down][1] < pivot:
+            if arr[down][1] > pivot:
                 break
             down -= 1
         
@@ -55,4 +55,3 @@ def unit_test():
 
     print(sampleList)
 
-unit_test()
