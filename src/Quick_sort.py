@@ -55,4 +55,3 @@ def unit_test():
 
     print(sortedList)
 
-unit_test()
