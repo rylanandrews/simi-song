@@ -5,6 +5,10 @@ import PySimpleGUI as sg
 import time
 import timeit
 
+from load_similarities import *
+import Quick_sort
+import shell_sort
+
 ## Preparing GUI
 
 # First Row
@@ -73,6 +77,7 @@ while True:
         suggestedSongs.print(currentInput)
 
         # TODO: populate suggestions box
+        
 
 
     if event == "-ShellSort-":
