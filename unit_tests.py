@@ -4,6 +4,7 @@
 #   run python -m unittest -v unit_tests.py
   
 import src.shell_sort as shell_sort
+import src.Quick_sort as Quick_sort
 
 import unittest
 
@@ -54,6 +55,31 @@ class TestSortMethods(unittest.TestCase):
         ]
 
         self.assertEqual(shell_sort.shell_sort(sampleList), sortedList)
+        
+        
+    def test_quicksort_simple(self):
+        sampleList = [
+            ["song5", 5],
+            ["song3", 3],
+            ["song6", 6],
+            ["song1", 1],
+            ["song3", 3],
+            ["song8", 8],
+        ]
+
+        sortedList = [
+            ["song8", 8],
+            ["song6", 6],
+            ["song5", 5],
+            ["song3", 3],
+            ["song3", 3],
+            ["song1", 1],
+        ]
+
+        Quick_sort.quick_sort(sampleList, 0, len(sampleList)-1)
+
+        self.assertEqual(sampleList, sortedList)
+
 
 if __name__ == '__main__':
     unittest.main()
