@@ -3,11 +3,6 @@
 # Credit "COP 3530" lecture "6 - Sorting"
 
 
-import sys
-
-#sys.setrecursionlimit(1000000)
-
-
 def partition(arr, lo, hi):
     # Set pivot as lowest element, initialize up as lowest, and down as highest
     pivot = arr[lo][1]
@@ -50,19 +45,3 @@ def quick_sort(array2d, low, high):
         # Recursively calls quick_sort() on sub-lists above and below the recently placed pivot
         quick_sort(array2d, low, pivot-1)
         quick_sort(array2d, pivot+1, high)
-
-def unit_test():
-    sampleList = [
-        ["song5", 5],
-        ["song3", 3],
-        ["song6", 6],
-        ["song1", 1],
-        ["song3", 3],
-        ["song8", 8],
-    ]
-
-    quick_sort(sampleList, 0, len(sampleList)-1)
-
-    print(sampleList)
-
-#unit_test()
