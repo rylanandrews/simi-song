@@ -1,5 +1,11 @@
 # I made this function after reviewing the code on https://stackoverflow.com/questions/11015320/how-to-create-a-trie-in-python
 def makeTrie(informativeTracks):
+    """Will take in a set (informativeTracks) and make a tree from it
+    Input:
+        informativeTracks: the set to be tried
+    Output:
+        a dictionary that serves as a trie 
+    """
     root = dict()
     for track in informativeTracks:
         currentNode = root
@@ -9,6 +15,14 @@ def makeTrie(informativeTracks):
     return root
 
 def autocomplete(trie, inputString):
+    """Will navigate a trie to report possible ways to complete the strings
+    Inputs:
+        trie: a dictionary that serves as a trie
+        inputString: the string from which the autocomplete will autocomplete
+    Outputs:
+        'No matches found' when the input string does not match any trie entry
+        A list of possible autocompletes otherwise
+    """
     currentNode = trie
     # Navigate down the trie
     for letter in inputString:
