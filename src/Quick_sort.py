@@ -36,12 +36,10 @@ def partition(arr, lo, hi):
 
 def quick_sort(array2d, low, high):
     # Stuff
-    sortedArray = ["title", 0] * (high - low)
     if low < high:
         pivot = partition(array2d, low, high)
-        sortedArray[low:pivot-1] = quick_sort(array2d, low, pivot-1)
-        sortedArray[pivot+1:high] = quick_sort(array2d, pivot+1, high)
-    return sortedArray
+        quick_sort(array2d, low, pivot-1)
+        quick_sort(array2d, pivot+1, high)
 
 def unit_test():
     sampleList = [
