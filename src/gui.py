@@ -6,7 +6,7 @@ import time
 import timeit
 
 from load_similarities import *
-import autocomplete
+from autocomplete import *
 import Quick_sort
 import shell_sort
 
@@ -59,9 +59,10 @@ window = sg.Window('Simi-song', layout)
 # Import the dataset and make a trie with it
 current_dir = os.path.dirname(os.path.abspath(__file__))
 path = os.path.join(current_dir, '..', 'data')
-readInData(path = path, numFilesToProcess = 5)
-trie = makeTrie(informativeNameToURIs.keys())
+readInData(path = path, numFilesToProcess = 30) # adjust numFilesToProcess to change start-up time
+trie = makeTrie(trackPlaylists.keys())
 
+# Event Loop to process "events" and get the "values" of the inputs
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
     event, values = window.read()
@@ -86,58 +87,80 @@ while True:
                 suggestedSongs.print(song)
         else:
             suggestedSongs.update(value = "No matches found")
+        
 
     if event == "-ShellSort-":
         currentInput = values["-INPUT-"]
-        # TODO: Implement song not found error
+        
+        # Compute similarities and catch exceptions
+        waitForNewInput = False;
+        try: 
+            similarities = computeSimilarityScores(currentInput, trackPlaylists, playlistsContent)
+            
+        except KeyError:
+            sortStatusBar.update(value="Song not found")
+            waitForNewInput = True
 
-        # TODO: assign similarity index
+        if not waitForNewInput:
+            # Populate the unsorted songs
+            for name, similarity in similarities.items():
+                unsortedSongs.print(name + ": " + str(similarity))
+            
+            # Track start time
+            startTime = timeit.timeit()
 
-        # Track start time
-        startTime = timeit.timeit()
+            # Call shell sort on data
+            similaritiesSorted = shell_sort(list(similarities.items()))
 
-        # TODO: call shell sort on data
+            # Track end time and update elapsed time
+            endTime = timeit.timeit()
+            elapsedTime = endTime - startTime
+            timeStatusBar.update(value=elapsedTime)
 
-        # Track end time and update elapsed time
-        endTime = timeit.timeit()
-        elapsedTime = endTime - startTime
-        timeStatusBar.update(value=elapsedTime)
+            sortStatusBar.update(value="Done")
 
-        sortStatusBar.update(value="Done")
+            # Clear output box
+            sortedSongs.update(value="")
 
-        # Clear output box
-        sortedSongs.update(value="")
-
-        # TODO: display data
-        # Iterate through list of songs and print using sortedSongs.print
-        sortedSongs.print("Sorted")
-        sortedSongs.print("sorted")
+            # Iterate through list of songs and print using sortedSongs.print
+            for element in similaritiesSorted:
+                sortedSongs.print(element[0] + ": " + str(element[1]))
 
     if event == "-QuickSort-":
         currentInput = values["-INPUT-"]
-        # TODO: Implement song not found error
-
-        # TODO: assign similarity index
-
-        # Track start time
-        startTime = timeit.timeit()
-
-        # TODO: call quick sort on data
-
-        # Track end time and update elapsed time
-        endTime = timeit.timeit()
-        elapsedTime = endTime - startTime
-        timeStatusBar.update(value=elapsedTime)
-
-        sortStatusBar.update(value="Done")
-
-        # Clear output box
-        sortedSongs.update(value="")
-
-        # TODO: display data
-        # Iterate through list of songs and print using sortedSongs.print
-        sortedSongs.print("Sorted")
-        sortedSongs.print("sorted")
         
+        # Compute similarities and catch exceptions
+        waitForNewInput = False;
+        try: 
+            similarities = computeSimilarityScores(currentInput, trackPlaylists, playlistsContent)
+            
+        except KeyError:
+            sortStatusBar.update(value="Song not found")
+            waitForNewInput = True
 
+        if not waitForNewInput:
+            # Populate the unsorted songs
+            for name, similarity in similarities.items():
+                unsortedSongs.print(name + ": " + str(similarity))
+            
+            # Track start time
+            startTime = timeit.timeit()
+
+            # Call shell sort on data
+            similaritiesSorted = quick_sort(list(similarities.items()))
+
+            # Track end time and update elapsed time
+            endTime = timeit.timeit()
+            elapsedTime = endTime - startTime
+            timeStatusBar.update(value=elapsedTime)
+
+            sortStatusBar.update(value="Done")
+
+            # Clear output box
+            sortedSongs.update(value="")
+
+            # Iterate through list of songs and print using sortedSongs.print
+            for element in similaritiesSorted:
+                sortedSongs.print(element[0] + ": " + str(element[1]))          
+        
 window.close()

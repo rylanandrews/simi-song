@@ -76,7 +76,6 @@ def computeSimilarityScores(informativeName, trackPlaylists, playlistsContent):
         for track in playlistsContent[playlist]:
             trackSimilarity[track] += similarityScore
     
-    print(trackSimilarity)
     del trackSimilarity[informativeName]
     return trackSimilarity
 
