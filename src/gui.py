@@ -83,8 +83,7 @@ while True:
             possibleSongList = autocomplete(trie, currentInput)
             printStatement = ""
             for song in possibleSongList:
-                printStatement = printStatement + song + "\n"
-            suggestedSongs.update(value = printStatement)
+                suggestedSongs.print(song)
         else:
             suggestedSongs.update(value = "No matches found")
 
