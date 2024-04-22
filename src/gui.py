@@ -2,13 +2,13 @@
 
 import PySimpleGUI as sg
 
-import time
 import timeit
 
 from load_similarities import *
 from autocomplete import *
 import Quick_sort
 import shell_sort
+
 
 ## Preparing GUI
 
@@ -25,12 +25,12 @@ suggestionsTextBox = sg.Text(text="Suggestions")
 suggestedSongs = sg.Multiline(size=(45, 5))
 
 # Fourth Row
-unsortedText = sg.Text(text="Unsorted Songs", size=(45, 1))
+unsortedText = sg.Text(text="Unsorted Songs", size=(65, 1))
 sortedText = sg.Text(text="Sorted Songs")
 
 # Fifth Row
-unsortedSongs = sg.Multiline(default_text="multiple\nsongs\nhere", size=(50,30))
-sortedSongs = sg.Output(size=(50,30))
+unsortedSongs = sg.Multiline(default_text="", size=(70,30))
+sortedSongs = sg.Output(size=(70,30))
 
 # Sixth Row
 sortTextBox = sg.Text(text="Status:")
@@ -61,6 +61,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 path = os.path.join(current_dir, '..', 'data')
 readInData(path = path, numFilesToProcess = 30) # adjust numFilesToProcess to change start-up time
 trie = makeTrie(trackPlaylists.keys())
+
+#for song in tracksInfo.keys():
+#    unsortedSongs.print(song)
 
 # Event Loop to process "events" and get the "values" of the inputs
 # Event Loop to process "events" and get the "values" of the inputs
@@ -93,7 +96,7 @@ while True:
         currentInput = values["-INPUT-"]
         
         # Compute similarities and catch exceptions
-        waitForNewInput = False;
+        waitForNewInput = False
         try: 
             similarities = computeSimilarityScores(currentInput, trackPlaylists, playlistsContent)
             
@@ -111,7 +114,7 @@ while True:
             startTime = timeit.timeit()
 
             # Call shell sort on data
-            similaritiesSorted = shell_sort(list(similarities.items()))
+            similaritiesSorted = shell_sort.shell_sort(list(similarities.items()))
 
             # Track end time and update elapsed time
             endTime = timeit.timeit()
@@ -131,7 +134,7 @@ while True:
         currentInput = values["-INPUT-"]
         
         # Compute similarities and catch exceptions
-        waitForNewInput = False;
+        waitForNewInput = False
         try: 
             similarities = computeSimilarityScores(currentInput, trackPlaylists, playlistsContent)
             
@@ -149,7 +152,7 @@ while True:
             startTime = timeit.timeit()
 
             # Call shell sort on data
-            similaritiesSorted = quick_sort(list(similarities.items()))
+            similaritiesSorted = Quick_sort.quick_sort(list(similarities.items()))
 
             # Track end time and update elapsed time
             endTime = timeit.timeit()
