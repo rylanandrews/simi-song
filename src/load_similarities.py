@@ -46,28 +46,23 @@ def processData(playlist):
                 or track["artist_name"] == "" or track["album_name"] == "":
                 continue
 
-            track_uri = track["track_uri"]
-            tracks.append(track_uri) # Make a list of tracks in that playlist
-            trackPlaylists[track_uri].append(playlistID) # Add the playlist to each track
+            informativeName = track["track_name"] + " by " + track["artist_name"]
+            tracks.append(informativeName) # Make a list of tracks in that playlist
+            trackPlaylists[informativeName].append(playlistID) # Add the playlist to each track
             
             # Store the track information
             trackInfo = dict()
             trackInfo["track_name"] = track["track_name"]
             trackInfo["artist_name"] = track["artist_name"]
             trackInfo["album_name"] = track["album_name"]
-            tracksInfo[track_uri] = trackInfo
-
-            # Store the IDs by track
-            name = track["track_name"] + " by " + track["artist_name"]
-            tracksInfo[track_uri]["condensed_name"] = name
-            informativeNameToURIs[name] = track_uri
+            tracksInfo[informativeName] = trackInfo
         
         playlistsContent[playlistID] = tracks  
 
-def computeSimilarityScores(trackID, trackPlaylists, playlistsContent):
+def computeSimilarityScores(informativeName, trackPlaylists, playlistsContent):
     """Computes a similarity score defined by the number of tracks in each playlist and adds this score to each song
     Inputs:
-        trackID: a string of the unique Spotify track ID
+        informativeName: a string of the unique Spotify track's artist and name
         trackPlaylists: a dictionary with trackID keys and a list of playlists containing that ID as values
         playlistsContent: a dictionary with unique playlist ID as keys and songs in that playlist as values
     Output:
@@ -75,40 +70,22 @@ def computeSimilarityScores(trackID, trackPlaylists, playlistsContent):
     """
     trackSimilarity = defaultdict(float)
     
-    playlists_to_consider = trackPlaylists[trackID]
+    playlists_to_consider = trackPlaylists[informativeName]
     for playlist in playlists_to_consider:
         similarityScore = 1 / (1 + len(playlistsContent[playlist])/500)
         
         for track in playlistsContent[playlist]:
             trackSimilarity[track] += similarityScore
             
-    del trackSimilarity[trackID]
-    
+    del trackSimilarity[informativeName]
     return trackSimilarity
 
 # Miscellaneous Functions
-def getTrackName(trackID, tracksInfo):
-    return tracksInfo[trackID]["track_name"]
+def getTrackName(informativeName, tracksInfo):
+    return tracksInfo[informativeName]["track_name"]
 
-def getArtistName(trackID, tracksInfo):
-    return tracksInfo[trackID]["artist_name"]
+def getArtistName(informativeName, tracksInfo):
+    return tracksInfo[informativeName]["artist_name"]
 
-def getAlbumName(trackID, tracksInfo):
-    return tracksInfo[trackID]["album_name"]
-
-def getCondensedName(trackID, tracksInfo):
-    return tracksInfo[trackID]["condensed_name"]
-
-def getTrackURI(trackInfo, infoToTracks):
-    return infoToTracks[trackInfo]
-
-# Actual code
-# current_dir = os.path.dirname(os.path.abspath(__file__))
-# path = os.path.join(current_dir, '..', 'data')
-# readInData(path = path)
-
-### EXAMPLE
-# testTrack = "spotify:track:3cVWNLd0uEHkc2tnBoE3Ay"
-# print(f'The test track is {getCondensedName(testTrack, tracksInfo)} with URI {getTrackURI(getCondensedName(testTrack, tracksInfo), informativeNameToURIs)}.')
-# similarityScores = computeSimilarityScores(trackID = testTrack, trackPlaylists = trackPlaylists, playlistsContent = playlistsContent)
-# similarityScores = similarityScores.items() # Converting to a list of tuples
+def getAlbumName(informativeName, tracksInfo):
+    return tracksInfo[informativeName]["album_name"]
