@@ -6,6 +6,7 @@ numPlaylistsProcessed = 0
 trackPlaylists = defaultdict(list) # Solution from https://stackoverflow.com/questions/11509721/how-do-i-initialize-a-dictionary-of-empty-lists-in-python
 tracksInfo = dict()
 playlistsContent = dict()
+informativeNameToURIs = dict()
 
 def readInData(path, numFilesToProcess = 100):
     """Goes through each file in the provided path and fetchs their contents to be put in the dictionaries
@@ -40,6 +41,11 @@ def processData(playlist):
         tracks = []
     
         for track in playlist["tracks"]:
+            # Skip loop if the track lacks information
+            if track["track_uri"] == "" or track["track_name"] == "" \
+                or track["artist_name"] == "" or track["album_name"] == "":
+                continue
+
             track_uri = track["track_uri"]
             tracks.append(track_uri) # Make a list of tracks in that playlist
             trackPlaylists[track_uri].append(playlistID) # Add the playlist to each track
@@ -50,6 +56,11 @@ def processData(playlist):
             trackInfo["artist_name"] = track["artist_name"]
             trackInfo["album_name"] = track["album_name"]
             tracksInfo[track_uri] = trackInfo
+
+            # Store the IDs by track
+            name = track["track_name"] + " by " + track["artist_name"]
+            tracksInfo[track_uri]["condensed_name"] = name
+            informativeNameToURIs[name] = track_uri
         
         playlistsContent[playlistID] = tracks  
 
@@ -85,6 +96,12 @@ def getArtistName(trackID, tracksInfo):
 def getAlbumName(trackID, tracksInfo):
     return tracksInfo[trackID]["album_name"]
 
+def getCondensedName(trackID, tracksInfo):
+    return tracksInfo[trackID]["condensed_name"]
+
+def getTrackURI(trackInfo, infoToTracks):
+    return infoToTracks[trackInfo]
+
 # Actual code
 current_dir = os.path.dirname(os.path.abspath(__file__))
 path = os.path.join(current_dir, '..', 'data')
@@ -92,6 +109,6 @@ readInData(path = path)
 
 ### EXAMPLE
 # testTrack = "spotify:track:3cVWNLd0uEHkc2tnBoE3Ay"
-# print(f"The test track is {getTrackName(testTrack, tracksInfo)} by {getArtistName(testTrack, tracksInfo)}.")
+# print(f'The test track is {getCondensedName(testTrack, tracksInfo)} with URI {getTrackURI(getCondensedName(testTrack, tracksInfo), informativeNameToURIs)}.')
 # similarityScores = computeSimilarityScores(trackID = testTrack, trackPlaylists = trackPlaylists, playlistsContent = playlistsContent)
 # similarityScores = similarityScores.items() # Converting to a list of tuples
